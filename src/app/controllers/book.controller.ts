@@ -45,7 +45,7 @@ const book = await bookModel.create(Book.parse(data));
 
 // Get all books with filtering, sorting, and pagination
 bookRouter.get('/', async(req, res) => {
-  
+  try {
     let {filter,sortBy,sort,limit} = req.query;
   let query = bookModel.find();
 
@@ -60,14 +60,7 @@ query = query.limit(Number(limit) || 10);
 
 // Execute
 const books = await query.exec();
-if(!books){
-  res.status(400).json(
-    {
-      "message": "Failed to retrieve books",
-        "success": false,
-        "error": books
-    }
-  )}
+
   
   res.status(200).json(
     {
@@ -76,7 +69,15 @@ if(!books){
         "data":books
     }
   )
- 
+  } catch (error) {
+    res.status(400).json(
+      {
+        "message": "Failed to retrieve books",
+          "success": false,
+          "error": error
+      }
+    )
+  }
 });
 
 // Get a book by ID

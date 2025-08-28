@@ -48,32 +48,30 @@ exports.bookRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
 }));
 // Get all books with filtering, sorting, and pagination
 exports.bookRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        let { filter, sortBy, sort, limit } = req.query;
-        let query = book_model_1.bookModel.find();
-        // Filter
-        if (filter)
-            query = query.where("genre").equals(filter);
-        // Sort
-        if (sortBy)
-            query = query.sort({ [sortBy]: sort === "desc" ? -1 : 1 });
-        // Limit
-        query = query.limit(Number(limit) || 10);
-        // Execute
-        const books = yield query.exec();
-        res.status(200).json({
-            "success": true,
-            "message": "Books retrieved successfully",
-            "data": books
-        });
-    }
-    catch (error) {
+    let { filter, sortBy, sort, limit } = req.query;
+    let query = book_model_1.bookModel.find();
+    // Filter
+    if (filter)
+        query = query.where("genre").equals(filter);
+    // Sort
+    if (sortBy)
+        query = query.sort({ [sortBy]: sort === "desc" ? -1 : 1 });
+    // Limit
+    query = query.limit(Number(limit) || 10);
+    // Execute
+    const books = yield query.exec();
+    if (!books) {
         res.status(400).json({
             "message": "Failed to retrieve books",
             "success": false,
-            "error": error
+            "error": books
         });
     }
+    res.status(200).json({
+        "success": true,
+        "message": "Books retrieved successfully",
+        "data": books
+    });
 }));
 // Get a book by ID
 exports.bookRouter.get('/:bookId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
