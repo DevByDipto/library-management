@@ -83,18 +83,10 @@ const books = await query.exec();
 // Get a book by ID
 bookRouter.get('/:bookId', async(req, res) => {
   
-      const {bookId} = req.params;
+  try {
+    const {bookId} = req.params;
     const book = await bookModel.findById(bookId);
 
-    if(!book){
-      res.status(400).json(
-      {
-        "message": "Failed to retrieve book by ID",
-          "success": false,
-          "error": "Book not found"
-      }
-    )
-    }
     res.status(200).json(
       {
           "success": true,
@@ -102,7 +94,15 @@ bookRouter.get('/:bookId', async(req, res) => {
           "data":book
       }
     )
-  
+  } catch (error) {
+     res.status(400).json(
+      {
+        "message": "Failed to retrieve book by ID",
+          "success": false,
+          "error": error
+      }
+    )
+  }
 
 
 })

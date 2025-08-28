@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
-const port = 5000;
+const port = process.env.PORT || 5000;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield mongoose_1.default.connect('mongodb+srv://Library-Management:jtHMo153tVOdCfm9@cluster0.nc8opzq.mongodb.net/libraryManagementDb?retryWrites=true&w=majority&appName=Cluster0');
+        yield mongoose_1.default.connect(process.env.MONGO_URI || '');
         console.log('Database connected successfully');
         try {
             app_1.default.listen(port, () => {

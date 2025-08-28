@@ -13,4 +13,11 @@ app.use("/api/borrow", borrow_controller_1.borrowRouter);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+app.use((req, res) => {
+    res.status(404).json({
+        message: "Route not found",
+        success: false,
+        path: req.originalUrl,
+    });
+});
 exports.default = app;

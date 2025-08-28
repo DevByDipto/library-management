@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import app from "./app";
 
-const port = 5000
+const port = process.env.PORT || 5000;
 
 
 
 
 async function main() {
-  await mongoose.connect('mongodb+srv://Library-Management:jtHMo153tVOdCfm9@cluster0.nc8opzq.mongodb.net/libraryManagementDb?retryWrites=true&w=majority&appName=Cluster0');
+  await mongoose.connect(process.env.MONGO_URI || '');
   console.log('Database connected successfully');
   
 try {

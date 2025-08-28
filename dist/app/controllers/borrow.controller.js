@@ -33,25 +33,36 @@ exports.borrowRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, f
             "error": "Invalid quantity"
         });
     }
-    let data = Borrow.parse(req.body);
-    yield book_model_1.bookModel.copiesCalculator(data.book, data.quantity);
-    const borrow = yield borrow_models_1.BorrowModel.create({
-        book: new mongodb_1.ObjectId(data.book),
-        quantity: data.quantity,
-        dueDate: new Date(data.dueDate)
-    });
-    if (borrow) {
+    try {
+        let data = Borrow.parse(req.body);
+        try {
+            yield book_model_1.bookModel.copiesCalculator(data.book, data.quantity);
+        }
+        catch (error) {
+            res.status(400).json({
+                "message": "Failed to borrow book",
+                "success": false,
+                "error": error.message
+            });
+        }
+        const borrow = yield borrow_models_1.BorrowModel.create({
+            book: new mongodb_1.ObjectId(data.book),
+            quantity: data.quantity,
+            dueDate: new Date(data.dueDate)
+        });
+        res.status(201).json({
+            "success": true,
+            "message": "Book borrowed successfully",
+            "data": borrow
+        });
+    }
+    catch (error) {
         res.status(400).json({
             "message": "Failed to borrow book",
             "success": false,
-            "error": borrow
+            "error": error
         });
     }
-    res.status(201).json({
-        "success": true,
-        "message": "Book borrowed successfully",
-        "data": borrow
-    });
 }));
 exports.borrowRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

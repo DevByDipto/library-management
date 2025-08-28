@@ -10,7 +10,6 @@ const Borrow = z.object({
     book: z.string(),
     quantity: z.number(),
     dueDate: z.string(),
-
 });
 
 // Borrow a book
@@ -25,23 +24,25 @@ borrowRouter.post('/', async (req, res) => {
         )
     }
 
-    let data = Borrow.parse(req.body);
-    await bookModel.copiesCalculator(data.book, data.quantity);
+    try {
+      let data = Borrow.parse(req.body); 
+      try {
+        await bookModel.copiesCalculator(data.book, data.quantity);
+        
+      } catch (error) {
+         res.status(400).json(
+            {
+                "message": "Failed to borrow book",
+                "success": false,
+                "error": (error as Error).message
+            })
+      }
 
-    const borrow = await BorrowModel.create({
+       const borrow = await BorrowModel.create({
         book: new ObjectId(data.book),
         quantity: data.quantity,
         dueDate: new Date(data.dueDate)
     })
-    if (borrow) {
-        res.status(400).json(
-            {
-                "message": "Failed to borrow book",
-                "success": false,
-                "error": borrow
-            })
-    }
-
     res.status(201).json(
 
         {
@@ -49,8 +50,19 @@ borrowRouter.post('/', async (req, res) => {
             "message": "Book borrowed successfully",
             "data": borrow
         })
-
+    } catch (error) {
+      res.status(400).json(
+            {
+                "message": "Failed to borrow book",
+                "success": false,
+                "error": error
+            })
+    }
 })
+
+
+
+
 
 borrowRouter.get('/', async (req, res) => {
     try {
