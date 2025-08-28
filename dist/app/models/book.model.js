@@ -36,7 +36,7 @@ let bookSchema = new mongoose_1.Schema({
 });
 bookSchema.static('copiesCalculator', function copiesCalculator(id, quantity) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(id, quantity);
+        // console.log(id,quantity);
         const book = yield this.findById(id);
         if (!book)
             throw new Error('Book not found');

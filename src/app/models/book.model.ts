@@ -28,7 +28,7 @@ let bookSchema = new Schema<Book,BookModelType>({
 )
 
 bookSchema.static('copiesCalculator', async function copiesCalculator(id,quantity) {
-console.log(id,quantity);
+// console.log(id,quantity);
 const book = await this.findById(id);
 if(!book) throw new Error('Book not found');
 
