@@ -33,12 +33,11 @@ This project allows managing books and borrow records, enforces business logic s
 ├── src
 │   ├── app.ts            # Express app setup
 │   ├── server.ts         # Server entry point
-│   ├── routes            # API routes (books, borrow)
-│   ├── models            # Mongoose models
-│   ├── interfaces        # TypeScript interfaces
-│   ├── middlewares       # Custom middlewares (error handlers)
-│   ├── controllers       # Route controllers
-│   └── utils             # Helper functions
+|   ├──app
+    │   ├── models            # Mongoose models
+    │   ├── interfaces        # TypeScript interfaces
+    │   ├── controllers       # Route controllers
+        │    ├── routes       # API routes (books, borrow)
 ```
 
 ---
