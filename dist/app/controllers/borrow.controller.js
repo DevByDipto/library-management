@@ -42,7 +42,7 @@ exports.borrowRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, f
             res.status(400).json({
                 "message": "Failed to borrow book",
                 "success": false,
-                "error": error.message
+                "error": error.message // aikhane error object ta jacche nah keno ?
             });
         }
         const borrow = yield borrow_models_1.BorrowModel.create({
@@ -60,7 +60,7 @@ exports.borrowRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(400).json({
             "message": "Failed to borrow book",
             "success": false,
-            "error": error
+            "error": error // aikhane to full error object ta jacche 
         });
     }
 }));
