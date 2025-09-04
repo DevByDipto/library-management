@@ -34,7 +34,7 @@ borrowRouter.post('/', async (req, res) => {
             {
                 "message": "Failed to borrow book",
                 "success": false,
-                "error": (error as Error).message
+                "error": (error as Error).message // aikhane error object ta jacche nah keno ?
             })
       }
 
@@ -55,7 +55,7 @@ borrowRouter.post('/', async (req, res) => {
             {
                 "message": "Failed to borrow book",
                 "success": false,
-                "error": error
+                "error": error // aikhane to full error object ta jacche 
             })
     }
 })
